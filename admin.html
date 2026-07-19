@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PL Legends Draw - Panel Admina</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+textarea{
+width:100%;
+height:500px;
+background:#222;
+color:white;
+padding:15px;
+font-size:16px;
+border-radius:10px;
+border:1px solid gold;
+box-sizing:border-box;
+}
+
+.info{
+margin:15px 0;
+color:gold;
+font-size:18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>⚙ Panel Administratora</h1>
+</header>
+
+<div class="container">
+
+<div class="panel">
+
+<div class="info">
+
+Wpisz jednego zawodnika w każdej linii.
+
+</div>
+
+<textarea id="players"></textarea>
+
+<br><br>
+
+<button onclick="savePlayers()">
+
+💾 Zapisz listę zawodników
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function loadPlayers(){
+
+let saved=localStorage.getItem("players");
+
+if(saved){
+
+document.getElementById("players").value=
+JSON.parse(saved).join("\n");
+
+}
+
+}
+
+function savePlayers(){
+
+let text=document.getElementById("players").value;
+
+let list=text
+.split("\n")
+.map(x=>x.trim())
+.filter(x=>x!="");
+
+localStorage.setItem(
+"players",
+JSON.stringify(list)
+);
+
+alert("Lista została zapisana.");
+
+}
+
+loadPlayers();
+
+</script>
+
+</body>
+</html>
