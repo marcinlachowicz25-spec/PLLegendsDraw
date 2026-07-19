@@ -1,60 +1,175 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PL LEGENDS BIG GAMES DRAW</title>
+<title>PL Legends Big Games Draw</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#111;color:#fff;margin:0}
-header{background:#1b1b1b;padding:20px;text-align:center;border-bottom:2px solid gold}
-h1{color:gold;margin:0}
-.container{display:flex;flex-wrap:wrap;padding:20px;gap:20px}
-.panel{flex:1;min-width:300px;background:#222;padding:16px;border-radius:12px}
-button{padding:12px 20px;font-size:18px;background:gold;border:none;border-radius:8px;cursor:pointer}
-#current{font-size:28px;text-align:center;color:gold;min-height:90px;margin:15px 0}
-</style>
-</head>
-<body>
-<header><h1>PL✨LEGENDS BIG GAMES DRAW</h1></header>
-<div class="container">
-<div class="panel">
-<h2>Finaliści</h2>
-<ul id="list"></ul>
-<button onclick="draw()">🎲 Losuj parę</button>
-<button onclick="location.reload()">Reset</button>
-<div id="current"></div>
-</div>
-<div class="panel">
-<h2>Wylosowane pary</h2>
-<ol id="pairs"></ol>
-</div>
-</div>
-<script>
-let players=[
-"PL Zwidek","PL Luke Hazzard","PL BURY 64","PL Pinto Cruz","HUNter Zs","PL Enfant terrible",
-"PL Harry Pioter","PL SK xXxMILOŠKOxXx","Stratovarius","PL Konop","Jonah Tali Lomu","PL KAMILT",
-"Super Zsolt","PL Oranie","PL YODA","PL Matt Matthew","PL OjCiEc ChRzEsTnY","PL Andrzej",
-"PL Majsterunio","Xavi Xerxes","Marcin Gromacki","PL SK Jariček","CZaDmAx","Pl Jarko"];
-function render(){list.innerHTML="";players.forEach(p=>{let li=document.createElement("li");li.textContent=p;list.appendChild(li);});}
-render();
-function r(n){return Math.floor(Math.random()*n);}
-function draw(){
- if(players.length<2){alert("Koniec losowania");return;}
- let c=document.getElementById("current"),i=0;
- let t=setInterval(()=>{
-   c.innerHTML=players[r(players.length)];
-   if(++i>20){
-     clearInterval(t);
-     let a=players.splice(r(players.length),1)[0];
-     let b=players.splice(r(players.length),1)[0];
-     render();
-     c.innerHTML="<b>"+a+"</b><br>VS<br><b>"+b+"</b>";
-     let li=document.createElement("li");
-     li.innerHTML="<b>"+a+"</b> vs <b>"+b+"</b>";
-     pairs.appendChild(li);
-   }
- },100);
+body{
+margin:0;
+background:#111;
+color:#fff;
+font-family:Arial;
+text-align:center;
 }
+
+header{
+background:#000;
+padding:25px;
+border-bottom:3px solid gold;
+}
+
+h1{
+color:gold;
+margin:0;
+}
+
+textarea{
+width:90%;
+height:260px;
+margin-top:20px;
+background:#222;
+color:#fff;
+border:1px solid gold;
+border-radius:10px;
+padding:10px;
+font-size:16px;
+}
+
+button{
+margin:10px;
+padding:14px 28px;
+font-size:18px;
+background:gold;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ffd700;
+}
+
+#results{
+max-width:900px;
+margin:30px auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:15px;
+}
+
+.match{
+background:#222;
+padding:18px;
+border-radius:10px;
+border:2px solid gold;
+font-size:20px;
+}
+
+footer{
+margin:30px;
+color:#888;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🏆 PL LEGENDS BIG GAMES DRAW</h1>
+
+<p>Wklej 24 finalistów (1 zawodnik = 1 linia)</p>
+
+</header>
+
+<textarea id="players"></textarea>
+
+<br>
+
+<button onclick="drawPairs()">🎲 LOSUJ PARY</button>
+
+<button onclick="resetDraw()">🔄 RESET</button>
+
+<div id="results"></div>
+
+<footer>
+
+PL Legends Draw
+
+</footer>
+
+<script>
+
+function shuffle(array){
+
+for(let i=array.length-1;i>0;i--){
+
+let j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+}
+
+function drawPairs(){
+
+let text=document.getElementById("players").value;
+
+let list=text.split("\n").map(x=>x.trim()).filter(x=>x!="");
+
+if(list.length!=24){
+
+alert("Musi być dokładnie 24 finalistów.");
+
+return;
+
+}
+
+shuffle(list);
+
+let html="";
+
+for(let i=0;i<24;i+=2){
+
+html+=`
+
+<div class="match">
+
+<b>MECZ ${(i/2)+1}</b>
+
+<br><br>
+
+${list[i]}
+
+<br>
+
+🆚
+
+<br>
+
+${list[i+1]}
+
+</div>
+
+`;
+
+}
+
+document.getElementById("results").innerHTML=html;
+
+}
+
+function resetDraw(){
+
+document.getElementById("results").innerHTML="";
+
+}
+
 </script>
+
 </body>
 </html>
