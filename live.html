@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PL LEGENDS LIVE DRAW</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+background:#000;
+color:white;
+font-family:Arial,sans-serif;
+text-align:center;
+}
+
+h1{
+color:gold;
+font-size:54px;
+margin-top:30px;
+}
+
+#clock{
+font-size:24px;
+margin:20px;
+color:#bbb;
+}
+
+#winners{
+width:90%;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.player{
+font-size:30px;
+padding:15px;
+background:#222;
+border:2px solid gold;
+border-radius:10px;
+animation:fade .5s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:scale(.9);}
+to{opacity:1;transform:scale(1);}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🏆 PL LEGENDS BIG GAMES DRAW</h1>
+
+<div id="clock"></div>
+
+<div id="winners"></div>
+
+<script>
+
+function load(){
+
+let data=JSON.parse(localStorage.getItem("finalists"))||[];
+
+let box=document.getElementById("winners");
+
+box.innerHTML="";
+
+data.forEach((p,i)=>{
+
+box.innerHTML+=`
+<div class="player">
+${i+1}. ${p}
+</div>
+`;
+
+});
+
+}
+
+function clock(){
+
+let d=new Date();
+
+document.getElementById("clock").innerHTML=d.toLocaleString();
+
+}
+
+setInterval(clock,1000);
+
+clock();
+
+load();
+
+setInterval(load,2000);
+
+</script>
+
+</body>
+</html>
